@@ -158,7 +158,27 @@ manner as {\tt mstatus}.MPV.
 {\tt mnstatus} also holds the NMIE bit.
 When NMIE=1, nonmaskable interrupts are enabled.
 When NMIE=0, {\em all} interrupts are disabled.
-Software can set NMIE to 1, but attempts to clear NMIE have no effect.
+Attempts to write the NMIE bit via the {\tt mnstatus} CSR have no effect.
+
+\begin{commentary}
+We do not allow software to clear the NMIE bit, because otherwise RNMIs
+would not truly be non-maskable.
+
+Previous versions of this specification allowed software to set the NMIE bit,
+so that RNMIs could be taken during the handling of other RNMIs.
+However, this scheme does not suffice to support software nesting of RNMIs.
+To support software nesting, the nested handler's return path would need to
+clear the NMIE bit, which we wish to disallow.
+Since this feature is otherwise of limited use, we have removed it.
+
+Software that wishes to minimize the latency until the next RNMI is taken can
+follow the top-half/bottom-half model, where the RNMI handler itself only
+enqueues a task to a task queue then returns.
+The bulk of the interrupt servicing is performed later, with RNMIs enabled.
+
+It would have sufficed not to expose the read-only NMIE bit to software at
+all, but making it software-visible aids debugging.
+\end{commentary}
 
 The other
 bits in {\tt mnstatus} are {\em reserved}; software should write zeros and
@@ -177,13 +197,6 @@ When an RNMI interrupt is detected, the interrupted PC is written to
 the {\tt mnepc} CSR, the type of RNMI to the {\tt mncause} CSR, and the
 privilege mode of the interrupted context to the {\tt mnstatus} CSR.
 The {\tt mnstatus}.NMIE bit is cleared, masking all interrupts.
-
-\begin{commentary}
-These interrupts are called non-maskable because software cannot
-mask the interrupts, but for correct operation other instances of the
-same interrupt must be held off until the handler is completed, hence
-the internal state bit.
-\end{commentary}
 
 The hart then enters machine-mode and jumps to the RNMI trap handler
 address.
