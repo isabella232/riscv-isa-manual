@@ -216,3 +216,10 @@ Traps in the RNMI handler can only be resumed if they occur while
 the handler was servicing an interrupt that occurred outside of
 machine-mode.
 \end{commentary}
+
+\begin{commentary}
+The Smrnmi extension does not change the behavior of the MRET and SRET
+instructions.
+In particular, MRET and SRET are unaffected by the {\tt mnstatus}.NMIE bit,
+and their execution does not alter the {\tt mnstatus}.NMIE bit.
+\end{commentary}
