@@ -158,6 +158,10 @@ manner as {\tt mstatus}.MPV.
 {\tt mnstatus} also holds the NMIE bit.
 When NMIE=1, nonmaskable interrupts are enabled.
 When NMIE=0, {\em all} interrupts are disabled.
+
+When NMIE=0, the hart behaves as though {\tt mstatus}.MPRV were clear,
+regardless of the current setting of {\tt mstatus}.MPRV.
+
 Attempts to write the NMIE bit via the {\tt mnstatus} CSR have no effect.
 
 \begin{commentary}
