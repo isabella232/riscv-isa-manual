@@ -210,16 +210,11 @@ instruction, which restores the PC from {\tt mnepc}, the privilege mode
 from {\tt mnstatus}, and also sets {\tt mnstatus}.NMIE, which
 re-enables interrupts.
 
-If the hart encounters an exception while {\tt mnstatus}.NMIE bit is clear, the
-exception state is written to {\tt mepc} and {\tt mcause}, {\tt mstatus}.MPP is
-set to M-mode, and the hart jumps to the RNMI exception handler
-address.
-
-\begin{commentary}
-Traps in the RNMI handler can only be resumed if they occur while
-the handler was servicing an interrupt that occurred outside of
-machine-mode.
-\end{commentary}
+If the hart encounters an exception while the {\tt mnstatus}.NMIE bit is
+clear, the actions taken are the same as if the exception had occurred while
+{\tt mnstatus}.NMIE were set, except that the program counter is set to the
+RNMI exception trap handler address (rather than the address specified by
+{\tt mtvec}).
 
 \begin{commentary}
 The Smrnmi extension does not change the behavior of the MRET and SRET
