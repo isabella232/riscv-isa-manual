@@ -1,0 +1,28 @@
+\chapter{``Zdm'' Standard Extension for Double-Precision Moves, Version 0.1}
+\label{sec:zdm}
+
+This chapter describes the RV32-only Zdm extension, which adds instructions to
+transfer double-precision floating-point values to and from integer registers.
+
+\begin{commentary}
+An analogous RV64-only Zqm extension is also under consideration, but its
+choice of instruction encoding depends on an unresolved decision about the
+RV128 encoding scheme.
+\end{commentary}
+
+The FMV.X.D instruction moves bits 63:32 of floating-point register {\em rs1}
+into integer register {\em rd}.
+It is encoded identically to the RV64 instruction of the same name.
+
+\begin{commentary}
+FMV.X.D is used in conjunction with the existing FMV.X.W instruction to move
+a double-precision floating-point number to a pair of x-registers.
+\end{commentary}
+
+The FMV.D.X instruction moves a double-precision number from a pair of integer
+registers into a floating-point register.  Integer registers {\em rs1} and
+{\em rs2} supply bits 31:0 and 63:32, respectively; the result is written to
+floating-point register {\em rd}.
+FMV.D.X is encoded identically to the RV64 instruction of the same name,
+except that instruction bit 13 is set and the {\em rs2} field need not be
+zero.

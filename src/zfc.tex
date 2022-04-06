@@ -1,0 +1,63 @@
+\chapter{``Zfc'' Standard Extension for Additional Floating-Point Comparison
+Instructions, Version 0.1}
+\label{sec:zfc}
+
+This chapter describes the Zfc standard extension, which adds instructions for
+quiet floating-point comparisons and for the IEEE 754-2019 minimum and maximum
+operations.
+The Zfc extension depends on the F extension.
+
+\begin{commentary}
+The name Zfc and the title's implicit description of minimum and maximum as
+comparison instructions are both debatable.
+\end{commentary}
+
+\begin{commentary}
+An analogous extension compatible with the Zfinx extension could be defined.
+\end{commentary}
+
+\section{Minimum and Maximum Instructions}
+
+The FMINI.S and FMAXI.S instructions are defined like the FMIN.S and FMAX.S
+instructions, except that if either input is NaN, the result is the
+canonical NaN.
+
+If the D extension is implemented, FMINI.D and FMAXI.D instructions are
+analogously defined to operate on double-precision numbers.
+
+If the Zfh extension is implemented, FMINI.H and FMAXI.H instructions are
+analogously defined to operate on half-precision numbers.
+
+If the Q extension is implemented, FMINI.Q and FMAXI.Q instructions are
+analogously defined to operate on quad-precision numbers.
+
+These instructions are encoded like their FMIN and FMAX counterparts, but
+with instruction bit 13 set to 1.
+
+\begin{commentary}
+These instructions implement the IEEE 754-2019 minimum and maximum operations.
+\end{commentary}
+
+
+\section{Comparison Instructions}
+
+The FLEQ.S and FLTQ.S instructions are defined like the FLE.S and FLT.S
+instructions, except that quiet NaN inputs do not cause the invalid
+operation exception flag to be set.
+
+If the D extension is implemented, FLEQ.D and FLTQ.D instructions are
+analogously defined to operate on double-precision numbers.
+
+If the Zfh extension is implemented, FLEQ.H and FLTQ.H instructions are
+analogously defined to operate on half-precision numbers.
+
+If the Q extension is implemented, FLEQ.Q and FLTQ.Q instructions are
+analogously defined to operate on quad-precision numbers.
+
+These instructions are encoded like their FLE and FLT counterparts, but
+with instruction bit 14 set to 1.
+
+\begin{commentary}
+We do not expect analogous comparison instructions will be added to the vector
+ISA, since they can be reasonably efficiently emulated using masking.
+\end{commentary}
