@@ -184,6 +184,10 @@ It would have sufficed not to expose the read-only NMIE bit to software at
 all, but making it software-visible aids debugging.
 \end{commentary}
 
+For the purposes of the WFI instruction, NMIE is a global interrupt enable,
+meaning that the setting of NMIE does not affect the operation of the WFI
+instruction.
+
 The other
 bits in {\tt mnstatus} are {\em reserved}; software should write zeros and
 hardware implementations should return zeros.
